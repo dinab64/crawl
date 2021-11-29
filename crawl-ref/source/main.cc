@@ -2393,6 +2393,13 @@ void process_command(command_type cmd, command_type prev_cmd)
         debug_terp_dlua(clua);
         break;
 
+    // test new command by making it act exactly like CMD_DISPLAY_COMMANDS
+    case CMD_MENU_TOGGLE:
+        show_help();
+        redraw_screen();
+        update_screen();
+        break;
+
 #ifdef TOUCH_UI
     case CMD_SHOW_KEYBOARD:
         ASSERT(wm);

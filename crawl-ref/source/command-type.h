@@ -161,8 +161,11 @@ enum command_type
     CMD_REVEAL_OPTIONS,
 #endif
     CMD_LUA_CONSOLE,
+    
+    // Add a command to bring up settings menu
+    CMD_MENU_TOGGLE, 
 
-    CMD_MAX_NORMAL = CMD_LUA_CONSOLE,
+    CMD_MAX_NORMAL = CMD_MENU_TOGGLE,
 
     // inventory only
     CMD_SET_SKILL_TARGET,
