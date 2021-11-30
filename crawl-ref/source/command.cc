@@ -1278,3 +1278,32 @@ void show_help(int section, string highlight_string)
     // from the help main menu.
     _show_help_special(key);
 }
+
+
+static const char *settings_format =
+    "<h>Dungeon Crawl Settings\n"
+    "\n"
+    "\n"
+    "<w>Setting 1:</w>\n"
+    "Brief description of settings 1 -------- [BUTTON]\n"
+    "\n"
+    "<w>Setting 2:</w>\n"
+    "Brief description of settings 2 -------- [BUTTON]\n"
+;
+
+// testing to see how formatted scroller shows up
+void show_settings()
+{
+    column_composer cols(1, 40);
+    cols.add_formatted(0, settings_format, true);
+    vector<formatted_string> lines = cols.formatted_lines();
+
+    int flags = FS_EASY_EXIT;
+    formatted_scroller test(flags);
+    test.set_more();
+    
+    for (unsigned i = 0; i < lines.size(); i++)
+        test.add_formatted_string(lines[i], i < lines.size()-1);
+
+    test.show();    
+}

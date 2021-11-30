@@ -2395,7 +2395,7 @@ void process_command(command_type cmd, command_type prev_cmd)
 
     // test new command by making it act exactly like CMD_DISPLAY_COMMANDS
     case CMD_MENU_TOGGLE:
-        show_help();
+        show_settings();
         redraw_screen();
         update_screen();
         break;
