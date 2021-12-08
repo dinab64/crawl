@@ -1279,31 +1279,39 @@ void show_help(int section, string highlight_string)
     _show_help_special(key);
 }
 
-
-static const char *settings_format =
-    "<h>Dungeon Crawl Settings\n"
-    "\n"
-    "\n"
-    "<w>Setting 1:</w>\n"
-    "Brief description of settings 1 -------- [BUTTON]\n"
-    "\n"
-    "<w>Setting 2:</w>\n"
-    "Brief description of settings 2 -------- [BUTTON]\n"
-;
-
-// testing to see how formatted scroller shows up
+// rudimentary ToggleableMenu for the settings to set boolean settings
 void show_settings()
 {
-    column_composer cols(1, 40);
-    cols.add_formatted(0, settings_format, true);
-    vector<formatted_string> lines = cols.formatted_lines();
+    //clean this up
+    ToggleableMenu settings_menu(MF_SINGLESELECT | MF_ANYPRINTABLE
+            | MF_NO_WRAP_ROWS | MF_TOGGLE_ACTION | MF_ALWAYS_SHOW_MORE);
 
-    int flags = FS_EASY_EXIT;
-    formatted_scroller test(flags);
-    test.set_more();
-    
-    for (unsigned i = 0; i < lines.size(); i++)
-        test.add_formatted_string(lines[i], i < lines.size()-1);
+    settings_menu.set_highlighter(nullptr);
+#ifdef USE_TILE_LOCAL
+    {
+        ToggleableMenuEntry* me =
+            new ToggleableMenuEntry("Settings Menu",
+                                    "Settings Menu",
+                                    MEL_ITEM);
+        me->colour = BLUE;
+        settings_menu.set_title(me, true, true);
+    }
+#else
+    settings_menu.set_title(
+        new ToggleableMenuEntry("Settings Menu",
+                                "Settings Menu",
+                                MEL_TITLE), true, true);
+#endif
+    settings_menu.set_tag("settings");
+    settings_menu.add_toggle_key(' ');
+    settings_menu.menu_action = Menu::ACT_EXECUTE;
 
-    test.show();    
+    settings_menu.add_entry(new ToggleableMenuEntry("Setting 1 - [brief description] - True",
+                                        "Setting 1 - [brief description] - False",
+                                        MEL_ITEM, 1));
+    settings_menu.add_entry(new ToggleableMenuEntry("Setting 2 - [brief description] - True",
+                                        "Setting 2 - [brief description] - False",
+                                        MEL_ITEM, 1));
+
+    settings_menu.show(false);
 }
